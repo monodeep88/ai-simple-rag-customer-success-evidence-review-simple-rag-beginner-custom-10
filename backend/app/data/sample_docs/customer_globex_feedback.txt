@@ -1,0 +1,21 @@
+Globex Corporation - Product Feedback Summary
+
+Customer: Globex Corporation
+Product: Cloud Analytics Platform
+Date: April 12, 2024
+Source: Monthly Check-in Call with John Doe (CTO)
+
+Overall Sentiment: Positive, but with specific areas for improvement.
+
+Feedback Points:
+1.  **Data Visualization**: John praised the real-time dashboards but expressed a strong desire for more advanced statistical analysis tools directly within the UI, rather than requiring exports to external tools like Excel.
+2.  **Performance**: Reported occasional latency issues when querying very large datasets (over 10TB). This was more pronounced during peak business hours (10 AM - 2 PM EST).
+3.  **User Interface**: Suggested minor UI tweaks, specifically making the 'filter' options more prominent and accessible from the main dashboard.
+4.  **Security Feature Request**: Asked about the possibility of integrating with their corporate SSO provider (Okta) for enhanced security and simplified login for their 500+ users.
+
+Impact: Latency issues sometimes disrupt their daily reporting schedule.
+
+Action Items:
+*   Investigate advanced statistical module roadmap.
+*   Escalate performance issues to engineering, specifically regarding large dataset queries during peak times.
+*   Prioritize SSO integration with Okta for Q3 development.
