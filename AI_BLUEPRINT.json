@@ -1,0 +1,168 @@
+{
+  "mode": "ai",
+  "project_title": "Customer Success Evidence Review RAG",
+  "short_description": "A beginner-friendly RAG system for analyzing customer success documentation, enabling quick extraction of key insights, challenges, and outcomes from unstructured text.",
+  "domain_summary": "Customer Success (CS) is critical for driving product adoption, reducing churn, and increasing customer lifetime value. CS teams generate vast amounts of documentation including meeting notes, QBRs, support tickets, and feedback. Manually sifting through this evidence to identify trends, pain points, or success stories is time-consuming. This project provides a RAG solution to automate evidence review, helping CSMs quickly retrieve specific information, understand customer health, and prepare for engagements.",
+  "user_persona": "Customer Success Manager (CSM)",
+  "architecture_notes": [
+    "This architecture emphasizes simplicity and ease of setup for beginners. FastAPI is chosen for its high performance and ease of learning Python APIs. React provides a modern, component-based UI. ChromaDB is an excellent choice for a beginner RAG project due to its straightforward API and capability to run in-memory or as a lightweight persistent store without complex external dependencies. Using a local embedding model (Sentence Transformers) avoids external API costs and dependencies for a core RAG component. The LLM can be swapped between a local Ollama setup (for full local control) or a standard API (like GPT-3.5-turbo) by configuring the backend, making it flexible for development and deployment. The focus is on a single-tenant, document-based RAG flow."
+  ],
+  "backend_modules": [
+    "Document Ingestion Service: Handles file uploads, processes documents into chunks, generates embeddings, and stores them in ChromaDB.",
+    "RAG Query Service: Receives user queries, embeds them, performs vector search in ChromaDB, retrieves relevant document chunks, constructs a prompt, and sends it to the LLM for generating an answer.",
+    "Health Check Service: Provides a simple endpoint to check the backend's operational status."
+  ],
+  "frontend_features": [
+    "File Upload Interface: Allows users to drag-and-drop or select multiple text-based documents (PDF, TXT, DOCX) for ingestion.",
+    "Search Bar: An input field for users to type natural language questions related to their uploaded customer success documents.",
+    "Response Display Area: Shows the AI-generated answer clearly, along with citations to the original source documents and specific text chunks.",
+    "Loading Indicators: Visual feedback during document processing and query response generation.",
+    "Error Handling UI: Displays user-friendly messages for file upload failures or API errors."
+  ],
+  "data_sources": [
+    "Local customer success documentation files (e.g., QBR summaries, meeting notes, customer feedback reports) in formats like .txt, .pdf, and .docx."
+  ],
+  "testing_strategy": [
+    "For backend: Test individual functions like chunking, embedding generation, vector search logic, and prompt construction. For frontend: Test individual React components for rendering and basic interaction.",
+    "Test the full RAG pipeline: upload document -> query -> get response with citations. Verify correct data flow between services (FastAPI, ChromaDB, LLM integration).",
+    "Simulate user interaction (e.g., Cypress/Playwright) to ensure the UI behaves as expected when interacting with the backend and displaying results.",
+    "Basic tests to measure latency for document ingestion and query response times with a small dataset to ensure beginner-friendly performance.",
+    "Using a small, fixed set of documents and queries, assert that the RAG system returns relevant information and correct citations."
+  ],
+  "starter_questions": [
+    "What were Acme Corp's main challenges in Q1?",
+    "Summarize the feedback received from Globex Corporation regarding product feature X.",
+    "What were the key takeaways from Wayne Enterprise's onboarding process?",
+    "Has 'Project Phoenix' been mentioned in any customer reviews?",
+    "What were the reported successes for 'Cyberdyne Systems' last quarter?"
+  ],
+  "workflow_steps": [
+    "1. User navigates to the application's home page.",
+    "2. User uploads customer success documents (e.g., 'customer_acme_q1_review.txt', 'customer_globex_feedback.txt') via the drag-and-drop interface.",
+    "3. Backend receives documents, performs OCR (if PDF) and text extraction, chunks the text, generates embeddings using the local embedding model, and stores chunks and embeddings in ChromaDB.",
+    "4. Frontend indicates 'Documents processed successfully'.",
+    "5. User enters a natural language query into the search bar, e.g., 'What were Acme Corp's Q1 challenges?'.",
+    "6. Frontend sends the query to the backend's RAG Query Service.",
+    "7. Backend embeds the user query, performs a vector search in ChromaDB to retrieve the most relevant text chunks.",
+    "8. Backend constructs a prompt using the retrieved chunks as context and the user's original query."
+  ],
+  "business_rules": [
+    "All AI-generated responses must cite the specific source document(s) and relevant text chunks they were derived from.",
+    "If information cannot be found within the provided documents, the system must explicitly state that it does not have the answer based on the available context.",
+    "Document ingestion should support .txt, .pdf, and .docx file types.",
+    "Maximum file size for upload is 10MB per document (configurable).",
+    "Retrieved chunks for RAG should be limited to the top 5 most relevant for brevity and cost/token management.",
+    "Only text content from documents is indexed; images or other media are ignored.",
+    "Embeddings for a document must be regenerated if the document content is updated/re-uploaded (simple re-ingestion workflow)."
+  ],
+  "sample_documents": [
+    {
+      "filename": "customer_acme_q1_review.txt",
+      "content": "Acme Corp - Q1 2024 Business Review\n\nCustomer: Acme Corporation\nProduct: Project Management Suite\nPeriod: January 1 - March 31, 2024\n\nOverview: Acme Corp showed strong engagement with the core project planning features. Adoption rates for task assignment and progress tracking increased by 15% this quarter.\n\nKey Challenges:\n1.  **Integration with legacy CRM**: Persistent issues reported with data synchronization between our suite and their existing CRM system. This caused delays in client reporting for their sales team.\n2.  **Reporting Customization**: Users requested more flexible and customizable reporting dashboards, specifically for cross-project budget allocation. Current templates were deemed too rigid for their complex financial tracking needs.\n3.  **Onboarding feedback**: Initial onboarding for new team members was slow due to insufficient self-service documentation. CSM provided additional one-on-one sessions.\n\nAchievements:\n*   Successfully launched three major projects using the platform.\n*   Reduced internal meeting times by 20% due to better task visibility.\n\nNext Steps:\n*   Schedule a deep-dive with engineering for CRM integration issues.\n*   Gather detailed requirements for custom reporting features.\n*   Develop a new self-service onboarding guide."
+    },
+    {
+      "filename": "customer_globex_feedback.txt",
+      "content": "Globex Corporation - Product Feedback Summary\n\nCustomer: Globex Corporation\nProduct: Cloud Analytics Platform\nDate: April 12, 2024\nSource: Monthly Check-in Call with John Doe (CTO)\n\nOverall Sentiment: Positive, but with specific areas for improvement.\n\nFeedback Points:\n1.  **Data Visualization**: John praised the real-time dashboards but expressed a strong desire for more advanced statistical analysis tools directly within the UI, rather than requiring exports to external tools like Excel.\n2.  **Performance**: Reported occasional latency issues when querying very large datasets (over 10TB). This was more pronounced during peak business hours (10 AM - 2 PM EST).\n3.  **User Interface**: Suggested minor UI tweaks, specifically making the 'filter' options more prominent and accessible from the main dashboard.\n4.  **Security Feature Request**: Asked about the possibility of integrating with their corporate SSO provider (Okta) for enhanced security and simplified login for their 500+ users.\n\nImpact: Latency issues sometimes disrupt their daily reporting schedule.\n\nAction Items:\n*   Investigate advanced statistical module roadmap.\n*   Escalate performance issues to engineering, specifically regarding large dataset queries during peak times.\n*   Prioritize SSO integration with Okta for Q3 development."
+    },
+    {
+      "filename": "customer_wayne_enterprise_onboarding_notes.txt",
+      "content": "Wayne Enterprise - Onboarding Progress Notes\n\nCustomer: Wayne Enterprise\nProduct: Cybersecurity Threat Intelligence Platform\nOnboarding Start Date: February 1, 2024\nCSM: Sarah Connor\n\nWeek 1 Update (Feb 8):\n*   Account setup completed. Initial data feeds configured.\n*   Training session conducted for security analysts (5 attendees).\n*   **Challenge**: Confusion around custom alert rule creation. Users found the interface for defining complex 'if-then' conditions counter-intuitive.\n*   **Success**: Platform successfully identified 2 critical vulnerabilities in their internal network within the first 72 hours.\n\nWeek 2 Update (Feb 15):\n*   Second training session focused on alert customization and dashboard configuration.\n*   **Challenge**: Integration with their SIEM (Splunk) encountered minor API key rotation issues, leading to temporary data flow interruptions. Resolved within 24 hours with support.\n*   **Action Item**: Create a dedicated troubleshooting guide for SIEM integration issues.\n\nOverall Onboarding Health: Green. Key challenges are being addressed proactively. Wayne Enterprise is excited about the platform's early detection capabilities. Goal is full operational status by end of March."
+    }
+  ],
+  "tool_catalog": [
+    {
+      "name": "document_retriever",
+      "description": "Retrieves relevant text chunks from the vector database based on a user's natural language query. It acts as the primary information source for the RAG system."
+    }
+  ],
+  "agent_plan": [
+    {
+      "name": "Architecture Agent",
+      "role": "Define app boundaries, data flow, runtime stack, and integration points.",
+      "outputs": [
+        "This architecture emphasizes simplicity and ease of setup for beginners. FastAPI is chosen for its high performance and ease of learning Python APIs. React provides a modern, component-based UI. ChromaDB is an excellent choice for a beginner RAG project due to its straightforward API and capability to run in-memory or as a lightweight persistent store without complex external dependencies. Using a local embedding model (Sentence Transformers) avoids external API costs and dependencies for a core RAG component. The LLM can be swapped between a local Ollama setup (for full local control) or a standard API (like GPT-3.5-turbo) by configuring the backend, making it flexible for development and deployment. The focus is on a single-tenant, document-based RAG flow."
+      ]
+    },
+    {
+      "name": "Backend Agent",
+      "role": "Design FastAPI modules, service contracts, validation, and error handling.",
+      "outputs": [
+        "Document Ingestion Service: Handles file uploads, processes documents into chunks, generates embeddings, and stores them in ChromaDB.",
+        "RAG Query Service: Receives user queries, embeds them, performs vector search in ChromaDB, retrieves relevant document chunks, constructs a prompt, and sends it to the LLM for generating an answer.",
+        "Health Check Service: Provides a simple endpoint to check the backend's operational status."
+      ]
+    },
+    {
+      "name": "Frontend Agent",
+      "role": "Design React screens, state flow, controls, and user feedback states.",
+      "outputs": [
+        "File Upload Interface: Allows users to drag-and-drop or select multiple text-based documents (PDF, TXT, DOCX) for ingestion.",
+        "Search Bar: An input field for users to type natural language questions related to their uploaded customer success documents.",
+        "Response Display Area: Shows the AI-generated answer clearly, along with citations to the original source documents and specific text chunks.",
+        "Loading Indicators: Visual feedback during document processing and query response generation.",
+        "Error Handling UI: Displays user-friendly messages for file upload failures or API errors."
+      ]
+    },
+    {
+      "name": "Database Agent",
+      "role": "Design persistence models, sample data, indexes, and audit records.",
+      "outputs": [
+        "Run history",
+        "Source document metadata",
+        "Generated workflow audit records"
+      ]
+    },
+    {
+      "name": "Testing Agent",
+      "role": "Define contract tests, smoke tests, and generated project validation.",
+      "outputs": [
+        "For backend: Test individual functions like chunking, embedding generation, vector search logic, and prompt construction. For frontend: Test individual React components for rendering and basic interaction.",
+        "Test the full RAG pipeline: upload document -> query -> get response with citations. Verify correct data flow between services (FastAPI, ChromaDB, LLM integration).",
+        "Simulate user interaction (e.g., Cypress/Playwright) to ensure the UI behaves as expected when interacting with the backend and displaying results.",
+        "Basic tests to measure latency for document ingestion and query response times with a small dataset to ensure beginner-friendly performance.",
+        "Using a small, fixed set of documents and queries, assert that the RAG system returns relevant information and correct citations."
+      ]
+    },
+    {
+      "name": "DevOps Agent",
+      "role": "Define environment variables, Docker workflow, and repository packaging.",
+      "outputs": [
+        "Docker-ready project",
+        "Environment sample file",
+        "GitHub repository upload"
+      ]
+    },
+    {
+      "name": "Reviewer Agent",
+      "role": "Review the generated plan for completeness, security, and portfolio quality.",
+      "outputs": [
+        "1. User navigates to the application's home page.",
+        "2. User uploads customer success documents (e.g., 'customer_acme_q1_review.txt', 'customer_globex_feedback.txt') via the drag-and-drop interface.",
+        "3. Backend receives documents, performs OCR (if PDF) and text extraction, chunks the text, generates embeddings using the local embedding model, and stores chunks and embeddings in ChromaDB.",
+        "4. Frontend indicates 'Documents processed successfully'.",
+        "5. User enters a natural language query into the search bar, e.g., 'What were Acme Corp's Q1 challenges?'.",
+        "6. Frontend sends the query to the backend's RAG Query Service."
+      ]
+    }
+  ],
+  "model_provider": "gemini",
+  "model_name": "gemini-2.5-flash",
+  "fallback_reason": "OpenAI limit reached. Automatically switched to Gemini.",
+  "architecture": "Customer Support KB Search",
+  "architecture_template_id": 9,
+  "architecture_template_path": "templates/simple-rag/customer-support-kb-search",
+  "architecture_description": "Customer Support KB Search for knowledge base response drafting.",
+  "architecture_version": "1.0",
+  "architecture_origin": "built_in",
+  "architecture_quality_score": 70,
+  "architecture_evolution_notes": "",
+  "architecture_technology": null,
+  "architecture_source_version": null,
+  "validation_pipeline": [
+    "pytest",
+    "npm install",
+    "npm run build",
+    "docker compose config",
+    "docker compose build"
+  ]
+}
