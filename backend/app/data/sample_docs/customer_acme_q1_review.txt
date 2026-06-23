@@ -1,0 +1,21 @@
+Acme Corp - Q1 2024 Business Review
+
+Customer: Acme Corporation
+Product: Project Management Suite
+Period: January 1 - March 31, 2024
+
+Overview: Acme Corp showed strong engagement with the core project planning features. Adoption rates for task assignment and progress tracking increased by 15% this quarter.
+
+Key Challenges:
+1.  **Integration with legacy CRM**: Persistent issues reported with data synchronization between our suite and their existing CRM system. This caused delays in client reporting for their sales team.
+2.  **Reporting Customization**: Users requested more flexible and customizable reporting dashboards, specifically for cross-project budget allocation. Current templates were deemed too rigid for their complex financial tracking needs.
+3.  **Onboarding feedback**: Initial onboarding for new team members was slow due to insufficient self-service documentation. CSM provided additional one-on-one sessions.
+
+Achievements:
+*   Successfully launched three major projects using the platform.
+*   Reduced internal meeting times by 20% due to better task visibility.
+
+Next Steps:
+*   Schedule a deep-dive with engineering for CRM integration issues.
+*   Gather detailed requirements for custom reporting features.
+*   Develop a new self-service onboarding guide.
