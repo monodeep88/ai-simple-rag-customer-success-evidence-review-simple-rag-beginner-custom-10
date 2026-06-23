@@ -1,0 +1,19 @@
+Wayne Enterprise - Onboarding Progress Notes
+
+Customer: Wayne Enterprise
+Product: Cybersecurity Threat Intelligence Platform
+Onboarding Start Date: February 1, 2024
+CSM: Sarah Connor
+
+Week 1 Update (Feb 8):
+*   Account setup completed. Initial data feeds configured.
+*   Training session conducted for security analysts (5 attendees).
+*   **Challenge**: Confusion around custom alert rule creation. Users found the interface for defining complex 'if-then' conditions counter-intuitive.
+*   **Success**: Platform successfully identified 2 critical vulnerabilities in their internal network within the first 72 hours.
+
+Week 2 Update (Feb 15):
+*   Second training session focused on alert customization and dashboard configuration.
+*   **Challenge**: Integration with their SIEM (Splunk) encountered minor API key rotation issues, leading to temporary data flow interruptions. Resolved within 24 hours with support.
+*   **Action Item**: Create a dedicated troubleshooting guide for SIEM integration issues.
+
+Overall Onboarding Health: Green. Key challenges are being addressed proactively. Wayne Enterprise is excited about the platform's early detection capabilities. Goal is full operational status by end of March.
